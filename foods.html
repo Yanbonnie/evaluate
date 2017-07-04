@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/zepto.min.js"></script>
+    <!--<script src="js/weui.min.js"></script>-->
+    <script src="js/vue.min.js"></script>
+    <title>万象城美食节投票评选</title>
+    
+    <link rel="stylesheet" href="css/weui.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div id="foods" v-cloak style="height:100%;">
+        <div class="index-foods" >
+            <div class="main-contain">
+               <div class="foods">
+                   <span class="zoomIn" v-for="(item,index) in listFoods" @click="foodsHandle(index)"><img :src="item" alt="" ></span>
+               </div>
+            </div>
+            <div class="footer"></div>
+        </div>
+        <div class="html-cover">
+            <div class="html-box">
+                <div class="close"></div>
+                <div class="txt-box" id="form">
+                    <p class="goTime">
+                        <input type="text" hidden  v-model="goTime">
+                        <span class="one" data-value="1" ></span>
+                        <span class="two" data-value="0" ></span>
+                    </p>
+                   <p class="flavor">
+                        <input type="text" hidden v-model="flavor">
+                        <span class="three" data-value="1"></span>
+                        <span class="four" data-value="0"></span>
+                    </p>
+                    <p class="hygiene">
+                        <input type="text" hidden v-model="hygiene">
+                        <span class="five" data-value="1"></span>
+                        <span class="six" data-value="0"></span>
+                    </p>
+                    <p class="service">
+                        <input type="text" hidden  v-model="service">
+                        <span class="seven" data-value="1"></span>
+                        <span class="eight" data-value="0"></span>
+                    </p>
+                    <p class="price">
+                        <input type="text" hidden v-model="price">
+                        <span class="night" data-value="1"></span>
+                        <span class="ten" data-value="0"></span>
+                    </p> 
+                </div>
+                <b class="submit" id="submit" @click="submitHandle"><img src="images/submit.png" alt=""></b>
+        
+                
+            </div>
+        </div>
+        <!--提示框-->
+        <div id="toast" class="tip" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon_msg weui-icon_toast" :class="toastState | toIcon"></i>
+                <p class="weui-toast__content">{{toastTxt}}</p>
+            </div>
+        </div>
+        <!--加载中-->
+        <div id="loadingToast" style="display:none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-loading weui-icon_toast"></i>
+                <p class="weui-toast__content"></p>
+            </div>
+        </div>
+
+        <!--按钮提示框-->
+        <!--BEGIN dialog2-->
+        <div class="js_dialog" id="iosDialog2" v-show="dialogState">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd">{{dialogTxt}}</div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" @click="knowDialog">知道了</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+       $(function(){    
+            var $toast = $('#toast');
+            var $loadingToast = $('#loadingToast');    
+            Vue.filter('toIcon',function(n){   //
+				var calssName = "";
+				if(n == 0){
+					calssName = "weui-icon-warn" //警告
+				}
+				if(n==1){
+					calssName = "weui-icon-success"  //成功
+				}
+				return calssName;
+			});    
+            var vm = new Vue({
+                el:"#foods",
+                data:{
+                    list:[
+                        {
+                            'id':1,
+                            'imagesUrl':[
+                                "images/1v1.png",
+                                "images/1v2.png",
+                                "images/1v3.png",
+                            ]
+                        },
+                        {
+                            'id':2,
+                            'imagesUrl':[
+                                "images/2v1.png",
+                                "images/2v2.png",
+                                "images/2v3.png",
+                            ]
+                        },
+                        {
+                            'id':3,
+                            'imagesUrl':[
+                                "images/3v1.png",
+                                "images/3v2.png",
+                                "images/3v3.png",
+                            ]
+                        },
+                        {
+                            'id':4,
+                            'imagesUrl':[
+                                "images/4v1.png",
+                                "images/4v2.png",
+                                "images/4v3.png",
+                            ]
+                        },
+                        {
+                            'id':5,
+                            'imagesUrl':[
+                                "images/5v1.png",
+                                "images/5v2.png",
+                                "images/5v3.png",
+                            ]
+                        },
+                        {
+                            'id':6,
+                            'imagesUrl':[
+                                "images/6v1.png",
+                                "images/6v2.png",
+                                "images/6v3.png",
+                            ]
+                        },
+                        {
+                            'id':7,
+                            'imagesUrl':[
+                                "images/7v1.png",
+                                "images/7v2.png",
+                                "images/7v3.png",
+                            ]
+                        },
+                        {
+                            'id':8,
+                            'imagesUrl':[
+                                "images/8v1.png",
+                                "images/8v2.png",
+                                "images/8v3.png",
+                            ]
+                        }
+                    ],
+                    toastState:null,
+                    toastTxt:"",
+                    dialogState:false,  //带按钮提示框状态
+                    dialogTxt:"",
+                    listFoods:[],
+                    foodId:null,
+                    shoperId:null,
+                    goTime:null,  //上菜时间
+                    flavor:null,  //口味
+                    hygiene:null, //卫生
+                    service:null, //服务
+                    price:null    //价格
+                },
+                methods:{
+                    getData(){  //通过id获取对应的数据
+                        for(var i = 0; i < this.list.length;i++){
+                            if(this.list[i].id == this.shoperId){
+                                this.listFoods = this.list[i].imagesUrl;
+                                return false;
+                            }
+                        }
+                    },
+                    foodsHandle(index){
+                        this.foodId = index+1;
+                        $('.html-cover').show();
+                    },
+                    submitHandle(){
+                        var $loadingToast = $('#loadingToast');  
+                         var $toast = $('#toast');
+                        var That = this;
+                        if(this.valitate()){
+                            $loadingToast.fadeIn(100);
+                            $loadingToast.find('.weui-toast__content').text("数据提交中");
+                            $.ajax({
+                                url:'http://test.xhwxpos.com/food/index.php?m=Wap&c=Index&a=ajax_post_evaluate&debug=1',
+                                data:{
+                                    'code':'32b85fa07b5ad8fc6fcd1d8c6bcc2142',
+                                    'serving':That.goTime,
+                                    'taste':That.flavor,
+                                    'hygiene':That.hygiene, //卫生
+                                    'service':That.service, //服务
+                                    'price':That.price,   //价格
+                                    'shop':That.shoperId,
+                                    'food':That.foodId
+                                },
+                                dataType:'json',
+                                type:'post',
+                                success:function(res){
+                                    $loadingToast.fadeOut(100); 
+                                    if(res.sta == 0){                                        
+                                        That.toastState = 1;
+                                        That.toastTxt = "评价成功";
+                                        $toast.fadeIn(100);
+                                        setTimeout(function () {
+                                            $toast.fadeOut(100);
+                                            That.toastTxt = "";
+                                            That.dataInit();
+                                        }, 2000);
+                                    }else{
+                                        That.dialogState=true;  //带按钮提示框状态
+                                        That.dialogTxt=res.msg;
+                                    }                                  
+                                },
+                                error:function(XMLHttpRequest, textStatus, errorThrown) {
+                                    console.log(XMLHttpRequest)
+                                }
+                            })
+                        }
+                        //alert("提交")
+                    },
+                    knowDialog:function(){  //弹框我知道了
+                        this.dialogState = false;
+                        this.dialogTxt = "";
+                    },
+                    getUrlPara:function(str,_url){
+                        var reg = new RegExp("(^|&)" + str + "=([^&]*)(&|$)", "i");
+                        var search = _url ? _url.split('?')[1] : window.location.search.substr(1);
+                        var par = search.match(reg);
+                        var str = par ? decodeURIComponent(par[2]) : false;
+                        return str;
+                    },
+                    valitate:function(){
+                        var That = this;
+                        var $toast = $('#toast');
+                        var arrInput = $("#form").find('input');
+                        for(var i = 0 ; i < arrInput.length; i++){
+                            if(!!this.goTime && !!this.flavor && !!this.hygiene && !!this.service && !!this.price){     
+                                console.log("goTime"+this.goTime+" flavor:"+this.flavor+" hygiene:"+this.hygiene+" service:"+this.service+" price:"+this.price)
+                                return true;
+                            }else{
+                                this.toastState = 0;
+                                this.toastTxt = "请完整填写信息";
+                                $toast.fadeIn(100);
+                                setTimeout(function () {
+                                    $toast.fadeOut(100);
+                                    That.toastTxt = "";
+                                    //That.dataInit();  //数据还原
+                                    //$('.html-cover').fadeOut();
+                                }, 2000);
+                                return false;
+                            }
+                        } 
+                    },
+                    dataInit(){
+                            this.goTime = null;
+                            this.flavor = null;
+                            this.hygiene = null;
+                            this.service = null;
+                            this.price = null;
+                            $("#form").find('span').removeClass('on');
+                            $('.html-cover').fadeOut();
+                    },
+                    init:function(){
+                        var That = this;
+                        $("#form p").find('span').on('click',function(){
+                            var value = $(this).attr('data-value');
+                            if($(this).parents('p').hasClass('goTime')){
+                                That.goTime = value;
+                            }
+                            if($(this).parents('p').hasClass('flavor')){
+                                That.flavor = value;
+                            }
+                            if($(this).parents('p').hasClass('hygiene')){
+                                That.hygiene = value;
+                            }
+                            if($(this).parents('p').hasClass('service')){
+                                That.service = value;
+                            }
+                            if($(this).parents('p').hasClass('price')){
+                                That.price = value;
+                            }
+                            $(this).addClass('on');
+                            $(this).siblings('span').removeClass('on');
+                        })
+
+                        // //点击菜色
+                        // $('.foods span').on('click',function(){
+                        //     alert(123)
+                        //     var index = $(this).index();
+                        //     //console.log(index);
+                        //     That.foodId = index;
+                        //     console.log(That)
+                        //     $('.html-cover').fadeIn();
+                        // }) 
+                        //关闭弹框 
+                        $('.close').on('click',function(){
+                           // $(this).closest('.html-cover').fadeOut();
+                            That.dataInit();
+                            
+                        })
+                    }
+                },
+                mounted(){
+                    this.init();
+                    this.shoperId = this.getUrlPara('id');
+                    this.getData();                    
+                }
+            })
+            
+           
+        })
+    </script>
+</body>
+</html>
