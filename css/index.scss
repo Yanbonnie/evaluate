@@ -231,6 +231,44 @@ img{
                 }
             }            
         }
+        .rule-txt{
+            width: REM(520);
+            position: absolute;
+            height: REM(540);
+            overflow-y:scroll;
+            top: REM(500);
+            left: 50%;
+            margin-left: REMTWO(520);
+            h3{
+                color: #4a4a4a;
+                line-height: 2rem;
+                text-align: center;
+                font-size: 12px;
+            }
+            ul{
+                li{
+                     color: #4a4a4a;
+                    line-height: 1.5rem;
+                    font-size: 10px;
+                }
+            }
+            p{
+                color: #4a4a4a;
+                line-height: 1.5rem;
+                font-size: 10px;
+            }
+        }
+        .sanjiao{
+            width: REM(20);
+            height: REM(20);
+            border-left: 2px #4a4a4a solid;
+            border-bottom: 2px #4a4a4a solid;
+            position: absolute;
+            top: REM(1050);
+            left: 50%;
+            margin-left: REM(10);
+            @include prefixer(transform,rotate(-45deg));
+        }
         .submit{
             width: REM(284);
             position: absolute;
