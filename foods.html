@@ -16,6 +16,7 @@
     <div id="foods" v-cloak style="height:100%;">
         <div class="index-foods" >
             <div class="main-contain">
+                <img :src="logoUrl" class="food-logo" alt="">
                <div class="foods">
                    <span class="zoomIn" v-for="(item,index) in listFoods" @click="foodsHandle(index)"><img :src="item" alt="" ></span>
                </div>
@@ -106,6 +107,7 @@
                     list:[
                         {
                             'id':1,
+                            'logoUrl':'images/logo1.png',
                             'imagesUrl':[
                                 "images/1v1.png",
                                 "images/1v2.png",
@@ -114,6 +116,7 @@
                         },
                         {
                             'id':2,
+                            'logoUrl':'images/logo8.png',
                             'imagesUrl':[
                                 "images/2v1.png",
                                 "images/2v2.png",
@@ -122,6 +125,7 @@
                         },
                         {
                             'id':3,
+                            'logoUrl':'images/logo6.png',
                             'imagesUrl':[
                                 "images/3v1.png",
                                 "images/3v2.png",
@@ -130,6 +134,7 @@
                         },
                         {
                             'id':4,
+                            'logoUrl':'images/logo5.png',
                             'imagesUrl':[
                                 "images/4v1.png",
                                 "images/4v2.png",
@@ -138,6 +143,7 @@
                         },
                         {
                             'id':5,
+                            'logoUrl':'images/logo4.png',
                             'imagesUrl':[
                                 "images/5v1.png",
                                 "images/5v2.png",
@@ -146,6 +152,7 @@
                         },
                         {
                             'id':6,
+                            'logoUrl':'images/logo2.png',
                             'imagesUrl':[
                                 "images/6v1.png",
                                 "images/6v2.png",
@@ -154,6 +161,7 @@
                         },
                         {
                             'id':7,
+                            'logoUrl':'images/logo3.png',
                             'imagesUrl':[
                                 "images/7v1.png",
                                 "images/7v2.png",
@@ -162,6 +170,7 @@
                         },
                         {
                             'id':8,
+                            'logoUrl':'images/logo7.png',
                             'imagesUrl':[
                                 "images/8v1.png",
                                 "images/8v2.png",
@@ -174,6 +183,7 @@
                     dialogState:false,  //带按钮提示框状态
                     dialogTxt:"",
                     listFoods:[],
+                    logoUrl:null,
                     foodId:null,
                     shoperId:null,
                     goTime:null,  //上菜时间
@@ -187,6 +197,7 @@
                         for(var i = 0; i < this.list.length;i++){
                             if(this.list[i].id == this.shoperId){
                                 this.listFoods = this.list[i].imagesUrl;
+                                this.logoUrl = this.list[i].logoUrl;
                                 return false;
                             }
                         }
