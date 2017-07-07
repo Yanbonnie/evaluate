@@ -187,57 +187,57 @@ img{
             left: 50%;
             margin-left: REMTWO(507);
             top: REM(500);
-            background: url($URL+"txt.png") center top;
+            background: url($URL+"txt.png") left top;
             @include prefixer(background-size,100% auto);
             span{
-                width: REM(24);
+                width: REM(124);
                 height: REM(24);
                 position: absolute;
                 background: url($URL+'circle.png') no-repeat;
-                @include prefixer(background-size,100% 100%);
+                @include prefixer(background-size,REM(24) REM(24));
                 &.one{
-                    right: REM(253);
+                    right: REM(143);
                     top: REM(8);
                 }
                 &.two{
-                    right: REM(110);
+                    right: REM(0);
                     top: REM(8);
                 }
                 &.three{
-                    right: REM(253);
+                    right: REM(143);
                     top: REM(98);
                 }
                 &.four{
-                    right: REM(110);
+                    right: REM(0);
                     top: REM(98);
                 }
                 &.five{
-                    right: REM(253);
+                    right: REM(143);
                     top: REM(188);
                 }
                 &.six{
-                    right: REM(110);
+                    right: REM(0);
                     top: REM(188);
                 }
                 &.seven{
-                    right: REM(253);
+                    right: REM(143);
                     top: REM(278);
                 }
                 &.eight{
-                    right: REM(110);
+                    right: REM(0);
                     top: REM(278);
                 }
                 &.night{
-                    right: REM(253);
+                    right: REM(143);
                     top: REM(368);
                 }
                 &.ten{
-                    right: REM(110);
+                    right: REM(0);
                     top: REM(368);
                 }
                 &.on{
                     background: url($URL+'circle_select.png') no-repeat;
-                    @include prefixer(background-size,100% 100%);
+                    @include prefixer(background-size,REM(24) REM(24));
                 }
             }            
         }
@@ -253,19 +253,19 @@ img{
                 color: #4a4a4a;
                 line-height: 2rem;
                 text-align: center;
-                font-size: 12px;
+                font-size: 14px;
             }
             ul{
                 li{
                      color: #4a4a4a;
-                    line-height: 1.5rem;
-                    font-size: 10px;
+                    line-height: 2rem;
+                    font-size: 14px;
                 }
             }
             p{
                 color: #4a4a4a;
-                line-height: 1.5rem;
-                font-size: 10px;
+                line-height: 2rem;
+                font-size: 14px;
             }
         }
         .sanjiao{
